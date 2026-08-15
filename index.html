@@ -796,6 +796,62 @@ button:disabled{cursor:not-allowed;opacity:.55;}
   .card,.metric-card,.matter-card,.agent-card,.lawyer-card{box-shadow:none!important;border:1px solid #bbb!important;break-inside:avoid;}
 }
 
+
+/* =========================================================
+   DHARMA AI — FINAL MOBILE RESPONSIVE FIX
+   ========================================================= */
+@media (max-width:1150px){
+  .context-sidebar{display:none !important;width:0 !important;min-width:0 !important;}
+  .content-row,.main{width:100%;min-width:0;}
+}
+@media (max-width:900px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden;}
+  .app,.main,.content-row,.view{width:100%;min-width:0;max-width:100%;}
+  .view{overflow-x:hidden;}
+  .topbar{width:100%;min-width:0;padding-left:12px;padding-right:12px;}
+  .smart-search{min-width:0;max-width:none;flex:1 1 auto;}
+  .smart-search-input{width:100%;min-width:0;}
+  .smart-search-input span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .topbar-actions{flex-shrink:0;}
+  .card,.metric-card,.matter-card,.agent-card,.lawyer-card,.result-card{max-width:100%;min-width:0;}
+  .workspace-brief,.workspace-actions,.grid,.metric-grid,.quick-actions{min-width:0;max-width:100%;}
+}
+@media (max-width:620px){
+  .topbar{height:58px;gap:7px;padding:8px 10px;}
+  .icon-btn{width:36px;height:36px;flex:0 0 36px;}
+  .smart-search-input{height:40px;padding:9px 11px;}
+  .smart-search-input kbd{display:none;}
+  .topbar-actions{gap:4px;}
+  .topbar-actions .icon-btn{width:34px;height:34px;flex-basis:34px;}
+  .view{padding:22px 14px 72px !important;}
+  #view-home .workspace-brief{display:block;padding-top:4px;}
+  #view-home .workspace-brief h1{font-size:42px;line-height:.92;}
+  #view-home .workspace-brief p{font-size:13px;line-height:1.45;}
+  .workspace-actions{display:flex;flex-direction:column;gap:8px;margin-top:18px;width:100%;}
+  .workspace-actions .btn{width:100%;min-height:44px;justify-content:center;}
+  .metric-grid{grid-template-columns:1fr 1fr !important;gap:8px !important;}
+  .metric-card{min-height:102px;padding:13px !important;}
+  .metric-card strong{font-size:32px !important;}
+  .metric-card:last-child{grid-column:span 2;}
+  .quick-actions{grid-template-columns:1fr 1fr;}
+  .qa-btn{min-width:0;padding:13px !important;}
+  .index-layout{gap:14px;}
+  .index-ring{width:112px;height:112px;flex-basis:112px;}
+  .index-ring b{font-size:34px;}
+  .field-row{grid-template-columns:1fr;}
+  .research-search{flex-direction:column;}
+  .research-search .btn{width:100%;justify-content:center;}
+  .chat-wrap{height:calc(100dvh - var(--topbar-h) - 40px);}
+}
+@media (max-width:390px){
+  .topbar{padding-left:8px;padding-right:8px;}
+  #view-home .workspace-brief h1{font-size:37px;}
+  .metric-grid{grid-template-columns:1fr !important;}
+  .metric-card:last-child{grid-column:auto;}
+  .quick-actions{grid-template-columns:1fr;}
+  .index-layout{display:block;}
+  .index-ring{margin:4px auto 18px;}
+}
 </style>
 </head>
 <body>
@@ -1615,6 +1671,17 @@ async function callGemini(systemPrompt, userPrompt, wantJson){
 /* =========================================================
    VIEW ROUTING
 ========================================================= */
+function updateContextSidebar(viewName){
+  const contextSidebar = document.getElementById('contextSidebar');
+  if(!contextSidebar) return;
+  if(window.innerWidth <= 1150){
+    contextSidebar.style.display = 'none';
+  }else{
+    const activeView = viewName || document.querySelector('.view.active')?.id?.replace('view-','') || 'home';
+    contextSidebar.style.display = (activeView === 'home' || activeView === 'matters') ? 'block' : 'none';
+  }
+}
+
 function showView(name){
   const targetView = document.getElementById('view-'+name);
   if(!targetView) return;
@@ -1624,10 +1691,9 @@ function showView(name){
   const item=document.querySelector('.nav-item[data-view="'+name+'"]');
   if(item) item.classList.add('active');
   window.scrollTo(0,0);
-  document.getElementById('contextSidebar').style.display = (name==='home'||name==='matters') ? 'block' : 'none';
+  updateContextSidebar(name);
   if(window.innerWidth<=900) document.getElementById('sidebar').classList.remove('open');
 }
-document.getElementById('contextSidebar').style.display='block';
 
 function openAgentWorkspace(agent){
   showView('assistant');
@@ -2575,6 +2641,7 @@ document.addEventListener('submit',e=>{
 ========================================================= */
 function handleMenuVisibility(){
   document.getElementById('menuBtn').style.display = window.innerWidth<=900 ? 'flex':'none';
+  updateContextSidebar();
 }
 window.addEventListener('resize', handleMenuVisibility);
 
