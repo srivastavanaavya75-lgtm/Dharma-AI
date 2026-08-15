@@ -2,6 +2,12 @@
 
 ### Legal Intelligence Workspace for Modern Legal Research
 
+<p align="center">
+  <a href="https://dharma-ai-three-red.vercel.app/">
+    🌐 <strong>Live Demo</strong>
+  </a>
+</p>
+
 Dharma AI is a premium legal intelligence workspace designed to bring **legal research, AI-assisted analysis, document intelligence, legal drafting, knowledge management, lawyer discovery, and consultation management** into one unified platform.
 
 The goal is simple:
@@ -240,6 +246,9 @@ The Knowledge Library acts as a centralized legal reference area.
 - Notifications
 
 Users can also save important research results as bookmarks for future reference.
+
+---
+
 # 👨‍⚖️ Lawyer Network
 
 The Lawyer Network allows users to discover legal professionals using multiple criteria.
@@ -505,6 +514,10 @@ Dharma AI can be deployed using:
 - Netlify
 - Vercel
 - Cloudflare Pages
+
+### Live Demo
+
+👉 **https://dharma-ai-three-red.vercel.app/**
 
 ### Deployment Flow
 
